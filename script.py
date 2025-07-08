@@ -89,6 +89,9 @@ args = parser.parse_args()
 
 result: list[tuple[str, str]] = []
 for path in tqdm.tqdm(list(pathlib.Path(args.input).iterdir())):
+    if path.suffix != ".eml":
+        continue
+
     try:
         email_id = path.with_suffix("").name
         icos = analyze_email(path)
