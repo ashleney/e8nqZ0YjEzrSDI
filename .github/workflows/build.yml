@@ -18,7 +18,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install PyInstaller
-        run: pip install pyinstaller
+        run: pip install pyinstaller pymupdf tqdm
 
       - name: Build EXE
         run: pyinstaller --onefile script.py
