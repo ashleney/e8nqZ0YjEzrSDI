@@ -51,16 +51,20 @@ def analyze_email(path: pathlib.Path) -> list[str]:
             if contains_cestne_prohlaseni(filename):
                 is_cestne_prohlaseni = True
 
-        if content_type in ("application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document") or content_type.startswith("image"):
-            payload = part.get_payload(decode=True)
-            assert isinstance(payload, bytes)
-            document = pymupdf.Document(filename=filename, stream=payload)
-            for page in document:
-                text = page.get_text()
+        if content_type in ("application/pdf", "application/msword") or "document" in content_type or content_type.startswith("image"):
+            try:
+                payload = part.get_payload(decode=True)
+                assert isinstance(payload, bytes)
+                document = pymupdf.Document(filename=filename, stream=payload)
+                for page in document:
+                    text = page.get_text()
 
-                icos += extract_icos(text)
-                if contains_cestne_prohlaseni(text):
-                    is_cestne_prohlaseni = True
+                    icos += extract_icos(text)
+                    if contains_cestne_prohlaseni(text):
+                        is_cestne_prohlaseni = True
+            except Exception as e:
+                traceback.print_exception(e)
+
 
         elif content_type in ("text/plain", "text/html"):
             payload = part.get_payload(decode=True)
