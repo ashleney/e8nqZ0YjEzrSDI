@@ -22,7 +22,7 @@ def is_ico(number: str) -> bool:
 
 
 def contains_cestne_prohlaseni(text: str) -> bool:
-    return any(x in text.lower() for x in ("cestne prohlaseni", "čestné prohlášení", "čestně prohlašuji", "čestného prohlášení", "čestném prohlášením", "čestným prohlášením"))
+    return any(x in text.lower() for x in ("cestne prohlaseni", "čestné prohlášení", "čestného prohlášení", "čestném prohlášením", "čestným prohlášením"))
 
 
 def extract_icos(text: str) -> list[str]:
